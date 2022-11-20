@@ -41,8 +41,7 @@ public class PlayerInputManager : MonoBehaviour
     {
         
     }
-
-
+    
     public Vector2 GetMovementVector()
     {
         return _movementInput;
@@ -66,5 +65,10 @@ public class PlayerInputManager : MonoBehaviour
     public float GetLastHorizontalInput()
     {
         return lastHorizontalInput;
+    }
+
+    public void DebugFunc(string message)
+    {
+        Debug.Log(message);
     }
 }

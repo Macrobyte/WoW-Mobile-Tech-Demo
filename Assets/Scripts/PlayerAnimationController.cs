@@ -25,16 +25,15 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void HandlePlayerAnimation()
     {
-        if (_inputManager.GetMovementX() != 0 || _inputManager.GetMovementY() != 0)
-        {
-
-
-            //_animator.SetFloat("Horizontal", _inputManager.GetMovementX());
-            _animator.SetFloat("Horizontal", Mathf.InverseLerp(-1, 1, _inputManager.GetMovementX()));
-
+        if (_inputManager.GetMovementVector() != Vector2.zero)
+        {      
+            _animator.SetFloat("Horizontal", _inputManager.GetMovementX());
             _animator.SetFloat("Vertical", _inputManager.GetMovementY());
-
-            
+            _animator.SetBool("IsMoving", true);
+        }
+        else
+        {
+            _animator.SetBool("IsMoving", false);
         }
     }
 }
