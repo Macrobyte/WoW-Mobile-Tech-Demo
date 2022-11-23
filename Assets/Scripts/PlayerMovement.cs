@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandlePlayerMovement()
     {
-        _playerController.SetRigidbodyVelocity(Speed);
+        _playerController.Move(Speed);
 
     }
 
