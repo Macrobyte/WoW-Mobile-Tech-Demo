@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Character : MonoBehaviour
 {
     [Header("Character Info")]
-    [SerializeField] protected string name;
+    [SerializeField] protected new string name;
     [SerializeField] protected Sprite image;
 
     [Header("Character Stats")]
@@ -13,15 +15,47 @@ public class Character : MonoBehaviour
     protected float currentHealth;
     [SerializeField] protected float maxResource;
     protected float currentResource;
-    [SerializeField] protected Color resourceColor;
+
+    private enum Resource { Rage, Mana, None }
+
+    [SerializeField] private Resource resource;
+    
 
     [SerializeField] protected Character target;
     [SerializeField] protected bool isTargeted;
 
+    private readonly Dictionary<ScriptableBuff, TimedBuff> buffs = new Dictionary<ScriptableBuff, TimedBuff>();
+
+    protected void Update()
+    {
+        HandleBuffTick();
+    }
 
 
-
-
+    public virtual void AddBuff(TimedBuff buff)
+    {
+        if(buffs.ContainsKey(buff.buff))
+        {
+            buffs[buff.buff].Activate();
+        }
+        else
+        {
+            buffs.Add(buff.buff, buff);
+            buff.Activate();
+        }
+    }
+    
+    private void HandleBuffTick()
+    {
+        foreach (var buff in buffs.Values.ToList())
+        {
+            buff.Tick(Time.deltaTime);
+            if (buff.isFinished)
+            {
+                buffs.Remove(buff.buff);
+            }
+        }
+    }
 
 
     #region Setters
@@ -66,11 +100,6 @@ public class Character : MonoBehaviour
     public float GetCurrentResource()
     {
         return currentResource;
-    }
-
-    public Color GetResourceColor()
-    {
-        return resourceColor;
     }
 
     public Character GetTarget()

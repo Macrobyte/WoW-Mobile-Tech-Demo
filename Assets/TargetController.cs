@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,20 +12,21 @@ public class TargetController : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text selfName;
 
     [Header("Target")]
-    public GameObject target;
+    public GameObject targetPanel;
+    [SerializeField] private Character currentTarget;
     [SerializeField] private Image targetImage;
     [SerializeField] private Image targetHealth;
     [SerializeField] private Image targetResource;
     [SerializeField] private TMPro.TMP_Text targetName;
 
     [Header("Target Of Target")]
-    public GameObject targetOfTarget;
+    public GameObject targetOfTargetPanel;
+    [SerializeField] private Character targetOfCurrentTarget;
     [SerializeField] private Image targetoftargetImage;
     [SerializeField] private Image targetoftargetHealth;
     [SerializeField] private Image targetoftargetResource;
     [SerializeField] private TMPro.TMP_Text targetoftargetName;
-
-
+    
     private void Start()
     {
         self = PlayerController.Instance.gameObject.GetComponent<Character>();
@@ -36,16 +35,15 @@ public class TargetController : MonoBehaviour
         selfResource.fillAmount = self.GetCurrentResource() / self.GetMaxResource();
         selfName.text = self.GetName();
 
-        targetOfTarget.gameObject.SetActive(false);
-        target.gameObject.SetActive(false);
+        targetOfTargetPanel.gameObject.SetActive(false);
+        targetPanel.gameObject.SetActive(false);
     }
 
     private void Update()
     {
         HandleTargeting();
-              
-    }
 
+    }
 
     public void HandleTargeting()
     {
@@ -57,25 +55,41 @@ public class TargetController : MonoBehaviour
 
             RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector2.zero);
 
-
             if (hit.collider != null)
             {
-                target.gameObject.SetActive(true);
+                Character targetHit = hit.collider.transform.gameObject.GetComponent<Character>();
 
-                Character targetHit = hit.collider.transform.gameObject.GetComponent<Character>(); ;
+                if (currentTarget == null)
+                {
+                    currentTarget = targetHit;
+                    currentTarget.SetIsTargeted(true);
+                    self.SetTarget(targetHit);
+                    SetTargetPanel(targetHit);
 
-                self.SetTarget(targetHit);
-                SetTargetPanel(targetHit);
+                    targetOfCurrentTarget = currentTarget.GetTarget();
+                }
+                else if (currentTarget != targetHit)
+                {
+                    currentTarget.SetIsTargeted(false);
+                    currentTarget = targetHit;              
+                    currentTarget.SetIsTargeted(true);
+                    self.SetTarget(targetHit);
+                    SetTargetPanel(targetHit);
+
+                    targetOfCurrentTarget = currentTarget.GetTarget();
+
+                }
             }
-
-
         }
     }
-
-
+    
     void SetTargetPanel(Character target)
-    {   
+    {
+        targetPanel.gameObject.SetActive(true);
         targetImage.sprite = target.GetSprite();
+        targetHealth.fillAmount = target.GetCurrentHealth() / target.GetMaxHealth();
+        targetResource.fillAmount = target.GetCurrentResource() / target.GetMaxResource();
+        targetName.text = target.GetName();
 
         SetTargetOfTargetPanel(target);
     }
@@ -84,19 +98,18 @@ public class TargetController : MonoBehaviour
     {
         Character targetoftarget = target.GetTarget();
 
-        
-        if (targetoftarget != null)
+        if (target.GetTarget() != null)
         {
-            targetOfTarget.gameObject.SetActive(true);
+            
+            targetOfTargetPanel.gameObject.SetActive(true);
             targetoftargetImage.sprite = targetoftarget.GetSprite();
+            targetoftargetHealth.fillAmount = targetoftarget.GetCurrentHealth() / targetoftarget.GetMaxHealth();
+            targetoftargetResource.fillAmount = targetoftarget.GetCurrentResource() / targetoftarget.GetMaxResource();
+            targetoftargetName.text = targetoftarget.GetName();
         }
         else
         {
-            targetOfTarget.gameObject.SetActive(false);
+            targetOfTargetPanel.gameObject.SetActive(false);
         }
-
-        
-
-        
     }
 }

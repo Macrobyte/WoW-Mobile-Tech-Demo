@@ -1,17 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : Character
 {
     //Intance
     public static PlayerController Instance;
-    
+
     private PlayerInputManager _inputManager;
 
     private Rigidbody2D _rigidBody2D;
     private float playerScale;
 
+
+    public ScriptableBuff speedBuff;
     
 
 
@@ -19,31 +19,37 @@ public class PlayerController : Character
     {
         Instance = this;
         currentHealth = maxHealth;
-        currentResource = maxResource;
-        
+        currentResource = 0;
+
         _rigidBody2D = GetComponent<Rigidbody2D>();
         playerScale = transform.localScale.x;
 
-        
+
     }
 
     private void Start()
     {
         _inputManager = PlayerInputManager.Instance;
-
-        //Set the player's health to the max health
-        
-        
     }
 
     // Update is called once per frame
-    void Update()
+    private new void Update()
     {
+        base.Update();
         FlipPlayer();
-        
     }
-    
-   
+
+    public override void AddBuff(TimedBuff buff)
+    {
+        base.AddBuff(buff);
+        
+        UIBuffController.Instance.AddBuff(buff);
+    }
+
+    public void TestSpeedBuff()
+    {
+        AddBuff(speedBuff.InitializeBuff(gameObject));
+    }
 
     /// <summary>
     /// Flips Player Sprite based on movement direction.

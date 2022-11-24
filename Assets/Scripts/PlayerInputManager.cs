@@ -67,8 +67,4 @@ public class PlayerInputManager : MonoBehaviour
         return lastHorizontalInput;
     }
 
-    public void DebugFunc(string message)
-    {
-        Debug.Log(message);
-    }
 }

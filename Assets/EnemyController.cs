@@ -4,30 +4,40 @@ using UnityEngine.UI;
 
 public class EnemyController : Character
 {
-    public static EnemyController Instance;
+    public float aggroRange;
+    
+    public LayerMask aggroLayer;
 
-
-
-
-    private void Update()
-    {
-        
-    }
 
     private void Awake()
     {
-        Instance = this;
         currentHealth = maxHealth;
         currentResource = maxResource;
     }
 
-    private void Start()
+
+    private new void Update()
     {
-        //Set the enemy's health to the max health
-        
+        base.Update();
+        HandleTargetDetection();
     }
 
+    private void HandleTargetDetection()
+    {
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, aggroRange, aggroLayer);
 
+        foreach (var hit in hitColliders)
+        {
+            if (hit.tag == "Player")
+            {
+                SetTarget(hit.transform.gameObject.GetComponent<PlayerController>());
+            }
+        }
+    }
 
-
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, aggroRange);
+    }
 }

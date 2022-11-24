@@ -155,9 +155,9 @@ Library: lib_burst_generated
 --root-assembly=C:\Users\Macrobyte\Documents\GitHub\WoW-Mobile-Tech-Demo\Temp\StagingArea\Data\Managed\Unity.TextMeshPro.dll
 --root-assembly=C:\Users\Macrobyte\Documents\GitHub\WoW-Mobile-Tech-Demo\Temp\StagingArea\Data\Managed\Unity.Timeline.dll
 --root-assembly=C:\Users\Macrobyte\Documents\GitHub\WoW-Mobile-Tech-Demo\Temp\StagingArea\Data\Managed\Unity.Services.Core.dll
---root-assembly=C:\Users\Macrobyte\Documents\GitHub\WoW-Mobile-Tech-Demo\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --root-assembly=C:\Users\Macrobyte\Documents\GitHub\WoW-Mobile-Tech-Demo\Temp\StagingArea\Data\Managed\Unity.Services.Core.Environments.dll
 --root-assembly=C:\Users\Macrobyte\Documents\GitHub\WoW-Mobile-Tech-Demo\Temp\StagingArea\Data\Managed\Unity.Services.Core.Internal.dll
+--root-assembly=C:\Users\Macrobyte\Documents\GitHub\WoW-Mobile-Tech-Demo\Temp\StagingArea\Data\Managed\Assembly-CSharp.dll
 --root-assembly=C:\Users\Macrobyte\Documents\GitHub\WoW-Mobile-Tech-Demo\Temp\StagingArea\Data\Managed\Unity.Services.Core.Analytics.dll
 --root-assembly=C:\Users\Macrobyte\Documents\GitHub\WoW-Mobile-Tech-Demo\Temp\StagingArea\Data\Managed\Unity.2D.SpriteShape.Runtime.dll
 --root-assembly=C:\Users\Macrobyte\Documents\GitHub\WoW-Mobile-Tech-Demo\Temp\StagingArea\Data\Managed\Unity.Services.Core.Scheduler.dll
